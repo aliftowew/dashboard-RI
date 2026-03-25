@@ -75,7 +75,7 @@ st.markdown("""
         border-radius: 6px;
         padding: 24px;
         margin-bottom: 20px;
-        text-decoration: none;
+        text-decoration: none !important; /* Kunci agar tidak ada garis bawah */
         display: block;
         transition: all 0.2s ease-in-out;
         height: 140px;
@@ -85,29 +85,29 @@ st.markdown("""
     .dashboard-card:hover {
         transform: translateY(-2px);
         box-shadow: 0 4px 6px rgba(0,0,0,0.15);
-        text-decoration: none;
+        text-decoration: none !important;
     }
     .card-title { 
         font-size: 1.15rem; 
         font-weight: 600; 
         margin-bottom: 10px;
-        color: #ffffff !important;
+        color: #ffffff !important; /* Kunci warna teks jadi putih */
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
     .card-desc { 
         font-size: 0.9rem; 
-        color: #f1f5f9 !important;
+        color: #f1f5f9 !important; /* Kunci warna teks deskripsi */
         line-height: 1.4;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
     
-    /* Palet Warna Solid Profesional */
-    .bg-navy { background-color: #1e3a8a; }
-    .bg-teal { background-color: #0f766e; }
-    .bg-slate { background-color: #475569; }
-    .bg-maroon { background-color: #831843; }
-    .bg-forest { background-color: #166534; }
-    .bg-charcoal { background-color: #334155; }
+    /* Palet Warna Solid Profesional - Dikunci dengan !important */
+    .bg-navy { background-color: #1e3a8a !important; }
+    .bg-teal { background-color: #0f766e !important; }
+    .bg-slate { background-color: #475569 !important; }
+    .bg-maroon { background-color: #831843 !important; }
+    .bg-forest { background-color: #166534 !important; }
+    .bg-charcoal { background-color: #334155 !important; }
     
     /* Footer Styling */
     .footer {
@@ -115,7 +115,7 @@ st.markdown("""
         margin-top: 50px;
         padding-top: 20px;
         border-top: 1px solid #e2e8f0;
-        color: #64748b;
+        color: #64748b !important;
         font-size: 0.95rem;
     }
 </style>
