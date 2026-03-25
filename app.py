@@ -4,7 +4,12 @@ import os
 import base64
 
 # --- KONFIGURASI HALAMAN ---
-st.set_page_config(page_title="Katalog Sistem Analisis & Simulasi Data", layout="wide")
+# initial_sidebar_state="collapsed" membuat sidebar otomatis tertutup di awal
+st.set_page_config(
+    page_title="Katalog Sistem Analisis & Simulasi Data", 
+    layout="wide",
+    initial_sidebar_state="collapsed"
+)
 
 # NAMA FILE BARU: Memaksa Streamlit melupakan data ber-emoji yang lama
 DATA_FILE = "katalog_resmi.json"
