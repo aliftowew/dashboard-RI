@@ -3,54 +3,53 @@ import json
 import os
 
 # --- KONFIGURASI HALAMAN ---
-st.set_page_config(page_title="Hub Dashboard Alif", page_icon="🚀", layout="wide")
+st.set_page_config(page_title="Katalog Dashboard Analisis", layout="wide")
 
 DATA_FILE = "dashboards.json"
 
-# --- DATA DEFAULT ---
-# Data awal berdasarkan dashboard yang sudah kamu buat
+# --- DATA DEFAULT (Tanpa Emoji) ---
 default_data = [
     {
         "id": 1,
-        "title": "Sensitivitas Minyak Indonesia 🥚",
-        "desc": "Calculate fiscal impact of oil price and exchange rate changes",
+        "title": "Sensitivitas Minyak Indonesia",
+        "desc": "Kalkulasi dampak fiskal dari perubahan harga minyak dan nilai tukar",
         "url": "https://harga-minyak-dunia.streamlit.app/",
-        "color_class": "bg-pink-purple"
+        "color_class": "bg-navy"
     },
     {
         "id": 2,
-        "title": "Swasembada Energi Simulasi ⚡",
-        "desc": "Simulate energy & economic impacts of vehicle electrification",
+        "title": "Simulasi Swasembada Energi",
+        "desc": "Simulasi dampak ekonomi dan energi dari elektrifikasi kendaraan",
         "url": "https://huggingface.co/spaces/aliftowew/swasembada-energi-simulasi",
-        "color_class": "bg-blue-green"
+        "color_class": "bg-teal"
     },
     {
         "id": 3,
-        "title": "Dashboard Dampak Ekonomi Jalan Jabar 😸",
-        "desc": "Calculate economic impact of West Java road projects",
+        "title": "Dampak Ekonomi Jalan Jawa Barat",
+        "desc": "Kalkulasi dampak ekonomi dari proyek infrastruktur jalan di Jawa Barat",
         "url": "https://huggingface.co/spaces/aliftowew/dashboard-dampak-ekonomi-jalan-jabar",
-        "color_class": "bg-purple"
+        "color_class": "bg-slate"
     },
     {
         "id": 4,
-        "title": "Dashboard Dampak Ekonomi KDKMP 🚀",
-        "desc": "Dampak Ekonomi KDKMP",
+        "title": "Dashboard Dampak Ekonomi KDKMP",
+        "desc": "Analisis dan proyeksi dampak ekonomi KDKMP",
         "url": "https://huggingface.co/spaces/aliftowew/Dashboard-Dampak-Ekonomi-KDKMP",
-        "color_class": "bg-red"
+        "color_class": "bg-maroon"
     },
     {
         "id": 5,
-        "title": "Prediksi Pangan Indonesia 👀",
-        "desc": "Memprediksi harga pangan Indonesia",
+        "title": "Prediksi Pangan Indonesia",
+        "desc": "Sistem prediksi fluktuasi harga pangan nasional",
         "url": "https://huggingface.co/spaces/aliftowew/prediksi-pangan-indonesia",
-        "color_class": "bg-orange"
+        "color_class": "bg-forest"
     },
     {
         "id": 6,
-        "title": "Kalkulator Kebijakan WFH 🪨",
-        "desc": "Dashboard kalkulasi kebijakan WFH",
+        "title": "Kalkulator Kebijakan WFH",
+        "desc": "Dashboard kalkulasi dan analisis efisiensi kebijakan WFH",
         "url": "https://kalkulator-kebijakan-wfh.streamlit.app/",
-        "color_class": "bg-dark"
+        "color_class": "bg-charcoal"
     }
 ]
 
@@ -66,52 +65,72 @@ def save_data(data):
     with open(DATA_FILE, "w") as f:
         json.dump(data, f)
 
-# Load data ke session_state agar reaktif
 if 'dashboards' not in st.session_state:
     st.session_state.dashboards = load_data()
 
-# --- CSS KUSTOM UNTUK CARDS ---
+# --- CSS KUSTOM PROFESIONAL ---
 st.markdown("""
 <style>
     .dashboard-card {
-        border-radius: 10px;
-        padding: 20px;
+        border-radius: 6px;
+        padding: 24px;
         margin-bottom: 20px;
-        color: white;
         text-decoration: none;
         display: block;
-        transition: transform 0.2s;
-        height: 150px;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        transition: all 0.2s ease-in-out;
+        height: 140px;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
     }
     .dashboard-card:hover {
-        transform: scale(1.02);
-        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 6px rgba(0,0,0,0.15);
         text-decoration: none;
     }
-    .card-title { font-size: 1.2rem; font-weight: bold; margin-bottom: 8px; }
-    .card-desc { font-size: 0.9rem; opacity: 0.9; }
+    .card-title { 
+        font-size: 1.15rem; 
+        font-weight: 600; 
+        margin-bottom: 10px;
+        color: #ffffff !important;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .card-desc { 
+        font-size: 0.9rem; 
+        color: #f1f5f9 !important;
+        line-height: 1.4;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
     
-    /* Gradien warna mirip gambar */
-    .bg-dark { background: linear-gradient(135deg, #51556b, #403e5c); }
-    .bg-pink-purple { background: linear-gradient(135deg, #c74c6e, #714ab0); }
-    .bg-purple { background: linear-gradient(135deg, #714ab0, #a04791); }
-    .bg-red { background: linear-gradient(135deg, #c42d2d, #a32222); }
-    .bg-orange { background: linear-gradient(135deg, #d4801e, #b36612); }
-    .bg-blue-green { background: linear-gradient(135deg, #3782a6, #2d9472); }
+    /* Palet Warna Solid Profesional */
+    .bg-navy { background-color: #1e3a8a; }
+    .bg-teal { background-color: #0f766e; }
+    .bg-slate { background-color: #475569; }
+    .bg-maroon { background-color: #831843; }
+    .bg-forest { background-color: #166534; }
+    .bg-charcoal { background-color: #334155; }
+    
+    /* Footer Styling */
+    .footer {
+        text-align: center;
+        margin-top: 50px;
+        padding-top: 20px;
+        border-top: 1px solid #e2e8f0;
+        color: #64748b;
+        font-size: 0.95rem;
+    }
 </style>
 """, unsafe_allow_html=True)
 
 
 # --- TAMPILAN UTAMA ---
-st.title("Koleksi Dashboard & Aplikasi")
-st.write("Kumpulan platform simulasi, perhitungan ekonomi, dan prediksi.")
+st.markdown("## Katalog Sistem Analisis & Simulasi Data")
+st.markdown("Pusat integrasi dashboard untuk perhitungan ekonomi, energi, dan kebijakan strategis.")
+st.markdown("<br>", unsafe_allow_html=True)
 
-# Menampilkan cards dalam grid
-cols = st.columns(2) # Bagi menjadi 2 kolom
+# Grid Layout
+cols = st.columns(2)
 for i, app in enumerate(st.session_state.dashboards):
     with cols[i % 2]:
-        # Membuat HTML card yang bisa diklik
         html_card = f"""
         <a href="{app['url']}" target="_blank" class="dashboard-card {app['color_class']}">
             <div class="card-title">{app['title']}</div>
@@ -121,17 +140,29 @@ for i, app in enumerate(st.session_state.dashboards):
         st.markdown(html_card, unsafe_allow_html=True)
 
 
-# --- SIDEBAR: TAMBAH / EDIT DATA ---
-st.sidebar.header("⚙️ Kelola Dashboard")
+# --- FOOTER ---
+st.markdown(
+    """
+    <div class="footer">
+        💡 <strong>Semua Bisa Dihitung</strong><br>
+        by Alif Towew
+    </div>
+    """, 
+    unsafe_allow_html=True
+)
 
-with st.sidebar.expander("➕ Tambah Dashboard Baru"):
+
+# --- SIDEBAR MANAJEMEN ---
+st.sidebar.markdown("### Manajemen Dashboard")
+
+with st.sidebar.expander("Tambah Dashboard Baru"):
     with st.form("add_form"):
         new_title = st.text_input("Judul Dashboard")
         new_desc = st.text_area("Deskripsi Singkat")
         new_url = st.text_input("URL Link")
-        new_color = st.selectbox("Pilih Warna", ["bg-dark", "bg-pink-purple", "bg-purple", "bg-red", "bg-orange", "bg-blue-green"])
+        new_color = st.selectbox("Pilih Warna Label", ["bg-navy", "bg-teal", "bg-slate", "bg-maroon", "bg-forest", "bg-charcoal"])
         
-        if st.form_submit_button("Simpan Baru"):
+        if st.form_submit_button("Simpan Data"):
             if new_title and new_url:
                 new_id = max([d['id'] for d in st.session_state.dashboards] + [0]) + 1
                 new_app = {
@@ -143,15 +174,15 @@ with st.sidebar.expander("➕ Tambah Dashboard Baru"):
                 }
                 st.session_state.dashboards.append(new_app)
                 save_data(st.session_state.dashboards)
-                st.success("Berhasil ditambahkan!")
+                st.success("Data berhasil ditambahkan.")
                 st.rerun()
             else:
                 st.error("Judul dan URL wajib diisi.")
 
-with st.sidebar.expander("✏️ Hapus Dashboard"):
-    app_to_delete = st.selectbox("Pilih yang ingin dihapus", [app['title'] for app in st.session_state.dashboards])
-    if st.button("Hapus"):
+with st.sidebar.expander("Hapus Dashboard"):
+    app_to_delete = st.selectbox("Pilih data yang akan dihapus", [app['title'] for app in st.session_state.dashboards])
+    if st.button("Hapus Data"):
         st.session_state.dashboards = [app for app in st.session_state.dashboards if app['title'] != app_to_delete]
         save_data(st.session_state.dashboards)
-        st.success(f"{app_to_delete} berhasil dihapus!")
+        st.success(f"'{app_to_delete}' telah dihapus dari sistem.")
         st.rerun()
