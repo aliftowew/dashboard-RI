@@ -1,13 +1,14 @@
 import streamlit as st
 import json
 import os
+import base64
 
 # --- KONFIGURASI HALAMAN ---
-st.set_page_config(page_title="Katalog Dashboard Analisis", layout="wide")
+st.set_page_config(page_title="Katalog Sistem Analisis & Simulasi Data", layout="wide")
 
 DATA_FILE = "dashboards.json"
 
-# --- DATA DEFAULT (Sangat Formal & Tanpa Emoji) ---
+# --- DATA DEFAULT (Sangat Formal & Tanpa Ikon di Judul) ---
 default_data = [
     {
         "id": 1,
@@ -17,9 +18,9 @@ default_data = [
     },
     {
         "id": 2,
-        "title": "Salaman Lebaran Math",
-        "desc": "Generate the most efficient visiting route on a map",
-        "url": "#" # Ganti dengan URL yang benar jika sudah ada
+        "title": "Swasembada Energi Simulasi",
+        "desc": "Simulate energy & economic impacts of vehicle electrification",
+        "url": "https://huggingface.co/spaces/aliftowew/swasembada-energi-simulasi"
     },
     {
         "id": 3,
@@ -35,20 +36,14 @@ default_data = [
     },
     {
         "id": 5,
-        "title": "Swasembada Energi Simulasi",
-        "desc": "Simulate energy & economic impacts of vehicle electrification",
-        "url": "https://huggingface.co/spaces/aliftowew/swasembada-energi-simulasi"
-    },
-    {
-        "id": 6,
         "title": "Prediksi Pangan Indonesia",
         "desc": "Memprediksi harga pangan Indonesia",
         "url": "https://huggingface.co/spaces/aliftowew/prediksi-pangan-indonesia"
     },
     {
-        "id": 7,
+        "id": 6,
         "title": "Kalkulator Kebijakan WFH",
-        "desc": "Calculate economic impact of WFH policy",
+        "desc": "Dashboard kalkulasi kebijakan WFH",
         "url": "https://kalkulator-kebijakan-wfh.streamlit.app/"
     }
 ]
@@ -68,10 +63,25 @@ def save_data(data):
 if 'dashboards' not in st.session_state:
     st.session_state.dashboards = load_data()
 
-# --- CSS KUSTOM PROFESIONAL (Minimalis, Teks Hitam) ---
-st.markdown("""
+# --- FUNGSI UNTUK MEMUAT GAMBAR RUMUS KE BASE64 ---
+def get_base64_of_image_file(png_file):
+    if not os.path.exists(png_file):
+        # Jika file tidak ada (misalnya di GitHub tapi belum di-upload),
+        # kembalikan string kosong agar CSS tidak rusak
+        return ""
+    with open(png_file, "rb") as f:
+        data = f.read()
+    return base64.b64encode(data).decode()
+
+# Asumsikan file gambar image_5.png berada di direktori yang sama dengan app.py
+# Pastikan Anda meng-upload image_5.png ke repositori GitHub Anda!
+img_rumus_b64 = get_base64_of_image_file("image_5.png")
+
+# --- CSS KUSTOM PROFESIONAL (Minimalis, Teks Hitam, Footer Rumus) ---
+st.markdown(f"""
 <style>
-    .dashboard-card {
+    /* Styling untuk kotak aplikasi (card) - Putih bersih */
+    .dashboard-card {{
         border-radius: 6px;
         padding: 24px;
         margin-bottom: 20px;
@@ -80,28 +90,38 @@ st.markdown("""
         display: block;
         transition: all 0.2s;
         height: 140px;
-        background-color: #f8f9fa; /* Latar abu-abu terang agar card terlihat */
+        background-color: white; /* Card tetap putih bersih */
         border: 1px solid #e2e8f0;
         box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    }
-    .dashboard-card:hover {
+    }}
+    .dashboard-card:hover {{
         transform: translateY(-2px);
         box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         text-decoration: none;
         color: black;
-    }
-    .card-title { font-size: 1.15rem; font-weight: bold; margin-bottom: 10px; color: black !important;}
-    .card-desc { font-size: 0.9rem; color: #6c757d !important; line-height: 1.4; }
+    }}
+    .card-title {{ font-size: 1.15rem; font-weight: bold; margin-bottom: 10px; color: black !important; }}
+    .card-desc {{ font-size: 0.9rem; color: #6c757d !important; line-height: 1.4; }}
     
-    /* Footer Styling */
-    .footer {
-        text-align: center;
+    /* Styling untuk bagian footer dengan latar belakang rumus matematika */
+    .footer-container {{
         margin-top: 50px;
-        padding-top: 20px;
         border-top: 1px solid #e2e8f0;
-        color: #6c757d;
-        font-size: 0.9rem;
-    }
+        background-image: url(data:image/png;base64,{img_rumus_b64});
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        padding: 40px; /* Memberikan ruang agar teks tidak menempel */
+        border-radius: 6px; /* Serasi dengan card */
+    }}
+    .footer {{
+        text-align: center;
+        color: #333 !important; /* Warna teks lebih gelap agar kontras dengan rumus */
+        font-size: 0.95rem;
+    }}
+    .tagline {{
+        font-weight: bold;
+    }}
 </style>
 """, unsafe_allow_html=True)
 
@@ -127,9 +147,11 @@ for i, app in enumerate(st.session_state.dashboards):
 # --- FOOTER ---
 st.markdown(
     """
-    <div class="footer">
-        Semua Bisa Dihitung<br>
-        by Alif Towew
+    <div class="footer-container">
+        <div class="footer">
+            <span class="tagline">💡 Semua Bisa Dihitung</span><br>
+            by Alif Towew
+        </div>
     </div>
     """, 
     unsafe_allow_html=True
@@ -141,7 +163,7 @@ st.sidebar.markdown("### Manajemen Katalog")
 
 with st.sidebar.expander("Tambah Dashboard Baru"):
     with st.form("add_form"):
-        new_title = st.text_input("Judul Dashboard")
+        new_title = st.text_input("Judul Dashboard (Tanpa Emoji)")
         new_desc = st.text_area("Deskripsi Singkat")
         new_url = st.text_input("URL Link")
         
