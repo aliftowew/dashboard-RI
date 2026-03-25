@@ -6,8 +6,8 @@ import base64
 # --- KONFIGURASI HALAMAN ---
 st.set_page_config(page_title="Katalog Sistem Analisis & Simulasi Data", layout="wide")
 
-# Mengubah nama file agar sistem otomatis membuat data baru tanpa emoji dari awal
-DATA_FILE = "dashboards_v2.json"
+# NAMA FILE BARU: Memaksa Streamlit melupakan data ber-emoji yang lama
+DATA_FILE = "katalog_resmi.json"
 
 # --- DATA DEFAULT (Tanpa Emoji) ---
 default_data = [
@@ -72,7 +72,7 @@ def get_base64_of_image_file(png_file):
         data = f.read()
     return base64.b64encode(data).decode()
 
-# Pastikan nama file gambar rumus sesuai dengan yang Anda unggah ke GitHub
+# Pastikan nama file sesuai dengan gambar rumus di GitHub
 img_rumus_b64 = get_base64_of_image_file("image_5.png")
 
 # --- CSS KUSTOM PROFESIONAL ---
@@ -105,8 +105,8 @@ st.markdown(f"""
     .footer-container {{
         margin-top: 50px;
         border-top: 1px solid #e2e8f0;
-        /* Lapisan putih transparan 60% menutupi gambar agar gambar terlihat 40% */
-        background-image: linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)), url(data:image/png;base64,{img_rumus_b64});
+        /* Overlay putih agar gambar rumus transparan sekitar 40% */
+        background-image: linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), url(data:image/png;base64,{img_rumus_b64});
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
@@ -117,9 +117,9 @@ st.markdown(f"""
     .tagline-box {{
         background-color: #ffffff; /* Kotak putih solid */
         padding: 12px 30px;
-        border-radius: 30px; /* Membuat tepian rounded/melengkung */
+        border-radius: 30px; /* Tepian melengkung */
         display: inline-block;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.05); /* Sedikit bayangan agar elegan */
+        box-shadow: 0 4px 6px rgba(0,0,0,0.05);
         border: 1px solid #e2e8f0;
     }}
     .footer-text {{
