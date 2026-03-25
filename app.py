@@ -1,73 +1,50 @@
 import streamlit as st
-import json
 import os
 import base64
 
 # --- KONFIGURASI HALAMAN ---
-# initial_sidebar_state="collapsed" membuat sidebar otomatis tertutup di awal
-st.set_page_config(
-    page_title="Katalog Sistem Analisis & Simulasi Data", 
-    layout="wide",
-    initial_sidebar_state="collapsed"
-)
+st.set_page_config(page_title="Katalog Sistem Analisis & Simulasi Data", layout="wide")
 
-# NAMA FILE BARU: Memaksa Streamlit melupakan data ber-emoji yang lama
-DATA_FILE = "katalog_resmi.json"
-
-# --- DATA DEFAULT (Tanpa Emoji) ---
-default_data = [
+# --- DATA DASHBOARD (HARDCODED & AMAN) ---
+# Jika ingin menambah dashboard baru, cukup tambahkan di dalam list ini
+daftar_dashboard = [
     {
-        "id": 1,
         "title": "Sensitivitas Minyak Indonesia",
         "desc": "Calculate fiscal impact of oil price and exchange rate changes",
         "url": "https://harga-minyak-dunia.streamlit.app/"
     },
     {
-        "id": 2,
         "title": "Swasembada Energi Simulasi",
         "desc": "Simulate energy & economic impacts of vehicle electrification",
         "url": "https://huggingface.co/spaces/aliftowew/swasembada-energi-simulasi"
     },
     {
-        "id": 3,
         "title": "Dashboard Dampak Ekonomi Jalan Jabar",
         "desc": "Calculate economic impact of West Java road projects",
         "url": "https://huggingface.co/spaces/aliftowew/dashboard-dampak-ekonomi-jalan-jabar"
     },
     {
-        "id": 4,
         "title": "Dashboard Dampak Ekonomi KDKMP",
         "desc": "Dampak Ekonomi KDKMP",
         "url": "https://huggingface.co/spaces/aliftowew/Dashboard-Dampak-Ekonomi-KDKMP"
     },
     {
-        "id": 5,
         "title": "Prediksi Pangan Indonesia",
         "desc": "Memprediksi harga pangan Indonesia",
         "url": "https://huggingface.co/spaces/aliftowew/prediksi-pangan-indonesia"
     },
     {
-        "id": 6,
         "title": "Kalkulator Kebijakan WFH",
         "desc": "Dashboard kalkulasi kebijakan WFH",
         "url": "https://kalkulator-kebijakan-wfh.streamlit.app/"
+    },
+    {
+        "title": "Elastisitas PDB & Lapangan Kerja",
+        "desc": "Dashboard analisis elastisitas PDB terhadap lapangan kerja",
+        "url": "https://elastisitas-pdb-lapangan-kerja.streamlit.app/"
     }
 ]
 
-# --- FUNGSI MANAJEMEN DATA ---
-def load_data():
-    if not os.path.exists(DATA_FILE):
-        with open(DATA_FILE, "w") as f:
-            json.dump(default_data, f)
-    with open(DATA_FILE, "r") as f:
-        return json.load(f)
-
-def save_data(data):
-    with open(DATA_FILE, "w") as f:
-        json.dump(data, f)
-
-if 'dashboards' not in st.session_state:
-    st.session_state.dashboards = load_data()
 
 # --- FUNGSI UNTUK MEMUAT GAMBAR RUMUS KE BASE64 ---
 def get_base64_of_image_file(png_file):
@@ -77,12 +54,17 @@ def get_base64_of_image_file(png_file):
         data = f.read()
     return base64.b64encode(data).decode()
 
-# Pastikan nama file sesuai dengan gambar rumus di GitHub
+# Pastikan nama file sesuai dengan gambar rumus di GitHub (image_5.png)
 img_rumus_b64 = get_base64_of_image_file("image_5.png")
+
 
 # --- CSS KUSTOM PROFESIONAL ---
 st.markdown(f"""
 <style>
+    /* Menyembunyikan tombol menu default Streamlit di pojok kanan atas (Opsional untuk keamanan ekstra) */
+    #MainMenu {{visibility: hidden;}}
+    header {{visibility: hidden;}}
+
     /* Styling Card (Kotak Aplikasi) */
     .dashboard-card {{
         border-radius: 6px;
@@ -148,7 +130,7 @@ st.markdown("<br>", unsafe_allow_html=True)
 
 # Grid Layout: 2 kolom
 cols = st.columns(2)
-for i, app in enumerate(st.session_state.dashboards):
+for i, app in enumerate(daftar_dashboard):
     with cols[i % 2]:
         html_card = f"""
         <a href="{app['url']}" target="_blank" class="dashboard-card">
@@ -173,37 +155,3 @@ st.markdown(
     """, 
     unsafe_allow_html=True
 )
-
-
-# --- SIDEBAR: TAMBAH / EDIT DATA ---
-st.sidebar.markdown("### Manajemen Katalog")
-
-with st.sidebar.expander("Tambah Dashboard Baru"):
-    with st.form("add_form"):
-        new_title = st.text_input("Judul Dashboard")
-        new_desc = st.text_area("Deskripsi Singkat")
-        new_url = st.text_input("URL Link")
-        
-        if st.form_submit_button("Simpan Baru"):
-            if new_title and new_url:
-                new_id = max([d['id'] for d in st.session_state.dashboards] + [0]) + 1
-                new_app = {
-                    "id": new_id,
-                    "title": new_title,
-                    "desc": new_desc,
-                    "url": new_url
-                }
-                st.session_state.dashboards.append(new_app)
-                save_data(st.session_state.dashboards)
-                st.success("Dashboard berhasil ditambahkan.")
-                st.rerun()
-            else:
-                st.error("Judul dan URL wajib diisi.")
-
-with st.sidebar.expander("Hapus Dashboard"):
-    app_to_delete = st.selectbox("Pilih yang ingin dihapus", [app['title'] for app in st.session_state.dashboards])
-    if st.button("Hapus"):
-        st.session_state.dashboards = [app for app in st.session_state.dashboards if app['title'] != app_to_delete]
-        save_data(st.session_state.dashboards)
-        st.success(f"{app_to_delete} berhasil dihapus.")
-        st.rerun()
