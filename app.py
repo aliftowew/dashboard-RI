@@ -6,9 +6,10 @@ import base64
 # --- KONFIGURASI HALAMAN ---
 st.set_page_config(page_title="Katalog Sistem Analisis & Simulasi Data", layout="wide")
 
-DATA_FILE = "dashboards.json"
+# Mengubah nama file agar sistem otomatis membuat data baru tanpa emoji dari awal
+DATA_FILE = "dashboards_v2.json"
 
-# --- DATA DEFAULT (Sangat Formal & Tanpa Ikon di Judul) ---
+# --- DATA DEFAULT (Tanpa Emoji) ---
 default_data = [
     {
         "id": 1,
@@ -66,61 +67,70 @@ if 'dashboards' not in st.session_state:
 # --- FUNGSI UNTUK MEMUAT GAMBAR RUMUS KE BASE64 ---
 def get_base64_of_image_file(png_file):
     if not os.path.exists(png_file):
-        # Jika file tidak ada (misalnya di GitHub tapi belum di-upload),
-        # kembalikan string kosong agar CSS tidak rusak
         return ""
     with open(png_file, "rb") as f:
         data = f.read()
     return base64.b64encode(data).decode()
 
-# Asumsikan file gambar image_5.png berada di direktori yang sama dengan app.py
-# Pastikan Anda meng-upload image_5.png ke repositori GitHub Anda!
+# Pastikan nama file gambar rumus sesuai dengan yang Anda unggah ke GitHub
 img_rumus_b64 = get_base64_of_image_file("image_5.png")
 
-# --- CSS KUSTOM PROFESIONAL (Minimalis, Teks Hitam, Footer Rumus) ---
+# --- CSS KUSTOM PROFESIONAL ---
 st.markdown(f"""
 <style>
-    /* Styling untuk kotak aplikasi (card) - Putih bersih */
+    /* Styling Card (Kotak Aplikasi) */
     .dashboard-card {{
         border-radius: 6px;
         padding: 24px;
         margin-bottom: 20px;
         color: black;
-        text-decoration: none;
+        text-decoration: none !important;
         display: block;
         transition: all 0.2s;
         height: 140px;
-        background-color: white; /* Card tetap putih bersih */
+        background-color: white; 
         border: 1px solid #e2e8f0;
         box-shadow: 0 1px 3px rgba(0,0,0,0.1);
     }}
     .dashboard-card:hover {{
         transform: translateY(-2px);
         box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        text-decoration: none;
+        text-decoration: none !important;
         color: black;
     }}
     .card-title {{ font-size: 1.15rem; font-weight: bold; margin-bottom: 10px; color: black !important; }}
     .card-desc {{ font-size: 0.9rem; color: #6c757d !important; line-height: 1.4; }}
     
-    /* Styling untuk bagian footer dengan latar belakang rumus matematika */
+    /* Styling Footer dengan Gambar Transparan & Background Teks */
     .footer-container {{
         margin-top: 50px;
         border-top: 1px solid #e2e8f0;
-        background-image: url(data:image/png;base64,{img_rumus_b64});
+        /* Lapisan putih transparan 60% menutupi gambar agar gambar terlihat 40% */
+        background-image: linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)), url(data:image/png;base64,{img_rumus_b64});
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
-        padding: 40px; /* Memberikan ruang agar teks tidak menempel */
-        border-radius: 6px; /* Serasi dengan card */
-    }}
-    .footer {{
+        padding: 60px 20px;
+        border-radius: 6px;
         text-align: center;
-        color: #333 !important; /* Warna teks lebih gelap agar kontras dengan rumus */
-        font-size: 0.95rem;
     }}
-    .tagline {{
-        font-weight: bold;
+    .tagline-box {{
+        background-color: #ffffff; /* Kotak putih solid */
+        padding: 12px 30px;
+        border-radius: 30px; /* Membuat tepian rounded/melengkung */
+        display: inline-block;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.05); /* Sedikit bayangan agar elegan */
+        border: 1px solid #e2e8f0;
+    }}
+    .footer-text {{
+        color: #1e293b !important; 
+        font-size: 0.95rem;
+        margin: 0;
+        line-height: 1.5;
+    }}
+    .tagline-title {{
+        font-weight: 700;
+        font-size: 1.05rem;
     }}
 </style>
 """, unsafe_allow_html=True)
@@ -148,9 +158,11 @@ for i, app in enumerate(st.session_state.dashboards):
 st.markdown(
     """
     <div class="footer-container">
-        <div class="footer">
-            <span class="tagline">💡 Semua Bisa Dihitung</span><br>
-            by Alif Towew
+        <div class="tagline-box">
+            <p class="footer-text">
+                <span class="tagline-title">💡 Semua Bisa Dihitung</span><br>
+                by Alif Towew
+            </p>
         </div>
     </div>
     """, 
@@ -158,12 +170,12 @@ st.markdown(
 )
 
 
-# --- SIDEBAR: TAMBAH / EDIT DATA (Formal) ---
+# --- SIDEBAR: TAMBAH / EDIT DATA ---
 st.sidebar.markdown("### Manajemen Katalog")
 
 with st.sidebar.expander("Tambah Dashboard Baru"):
     with st.form("add_form"):
-        new_title = st.text_input("Judul Dashboard (Tanpa Emoji)")
+        new_title = st.text_input("Judul Dashboard")
         new_desc = st.text_area("Deskripsi Singkat")
         new_url = st.text_input("URL Link")
         
