@@ -42,6 +42,11 @@ daftar_dashboard = [
         "title": "Elastisitas PDB & Lapangan Kerja",
         "desc": "Dashboard analisis elastisitas PDB terhadap lapangan kerja",
         "url": "https://elastisitas-pdb-lapangan-kerja.streamlit.app/"
+    },
+    {
+        "title": "Kalkulator Subsidi Listrik PSEL",
+        "desc": "Dashboard analisis subsidi listrik PSEL",
+        "url":"https://kalkulator-wte.streamlit.app/"
     }
 ]
 
