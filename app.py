@@ -16,7 +16,7 @@ daftar_dashboard = [
     {
         "title": "Swasembada Energi Simulasi",
         "desc": "Simulate energy & economic impacts of vehicle electrification",
-        "url": "https://huggingface.co/spaces/aliftowew/swasembada-energi-simulasi"
+        "url": "https://elektrifikasi-kendaraan.streamlit.app/"
     },
     {
         "title": "Dashboard Dampak Ekonomi Jalan Jabar",
