@@ -31,7 +31,7 @@ daftar_dashboard = [
     {
         "title": "Prediksi Pangan Indonesia",
         "desc": "Memprediksi harga pangan Indonesia",
-        "url": "https://huggingface.co/spaces/aliftowew/prediksi-pangan-indonesia"
+        "url": "https://prediksi-pangan-indonesia.streamlit.app/"
     },
     {
         "title": "Kalkulator Kebijakan WFH",
