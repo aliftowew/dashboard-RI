@@ -47,7 +47,7 @@ daftar_dashboard = [
         "title": "Kalkulator Subsidi Listrik PSEL",
         "desc": "Dashboard analisis subsidi listrik PSEL",
         "url":"https://kalkulator-wte.streamlit.app/"
-    }
+    },
     {
         "title": "Dashboard Solar B50",
         "desc": "Kalkulator analisis kebijakan Solar B50",
