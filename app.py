@@ -48,6 +48,11 @@ daftar_dashboard = [
         "desc": "Dashboard analisis subsidi listrik PSEL",
         "url":"https://kalkulator-wte.streamlit.app/"
     }
+    {
+        "title": "Dashboard Solar B50",
+        "desc": "Kalkulator analisis kebijakan Solar B50",
+        "url":"https://solar-dashboard-fuo1.vercel.app/"
+    }
 ]
 
 
